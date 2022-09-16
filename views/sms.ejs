@@ -1,0 +1,96 @@
+<%- include('partials/header') %>
+
+<div class="container mt-5">
+  <h1>SMS Template</h1>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <!-- Makes POST request to /login route -->
+          <form action="" method="POST">
+            <div class="form-group">
+              <label for="template_name">Heading</label>
+              <input type="text" class="form-control" value="Hello name," id="template_name"
+                name="template_name" readonly>
+            </div>
+            <div class="form-group">
+              <label for="template_name">Change Name</label>
+              <input type="text" class="form-control"  id="changeName" name="changeName" oninput="onChange()">
+            </div>
+            <div class="form-group">
+              <label for="template_body">SMS Body</label>
+              <textarea type="text" class="form-control" name="template_body" id="template_body"></textarea>
+            </div>
+            <button type="submit" class="btn btn-dark">Send SMS</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="success">
+
+</div>
+<script>
+  function onChange() {
+      const newValue = $("#changeName").val();
+      const templateValue = $("#template_name").val("Hello "+ newValue);
+    }
+  $(document).ready(function () {
+    
+
+    $.ajax({
+      url: `/get-template/${window.location.href.split('/').pop()}`,
+      headers: {
+        'authorization': 'bearer ' + localStorage.getItem('jwt'),
+        'Content-Type': 'application/json'
+      },
+      method: 'GET',
+      success: function (data) {
+        console.log(data.data);
+        $('#template_name').val(data.data.template_name);
+        $('#template_body').text(data.data.template_body);
+      },
+      error: function () {
+        window.location.href = '/signin';
+
+      }
+    });
+
+     $("form").submit(function (event) {
+      //stop form from submitting normally
+
+      event.preventDefault();
+      var formValues = {
+        "template_name": $("#template_name").val(),
+        "template_body": $("#template_body").val()
+      }
+    $.ajax({
+      url: `/send-sms`,
+      headers: {
+        'authorization': 'bearer ' + localStorage.getItem('jwt'),
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      data: JSON.stringify(formValues),
+      success: function (data) {
+       
+       const add = ` <div class="card w-75">
+  <div class="card-body">
+    <h5 class="card-title">${data.data.template_name}</h5>
+    <p class="card-text">${data.data.template_body}</p>
+    <p class="text-success">SMS send successfully</p>
+  </div>
+</div>`
+        $("#success").append(add);
+      },
+      error: function () {
+        window.location.href = '/signin';
+
+      }
+    });
+  });
+  });
+
+</script>
+<%- include('partials/header') %>

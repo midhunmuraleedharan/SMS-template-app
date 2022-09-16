@@ -1,0 +1,48 @@
+<%- include('partials/header') %>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("form").submit(function (event) {
+      event.preventDefault();
+      var formValues = $(this).serialize();
+      $.post("/signup", formValues, function (data) {
+        window.location.href = '/signin';
+      });
+    });
+  });
+</script>
+<div class="container mt-5">
+  <h1>Register User</h1>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <!-- Makes POST request to /login route -->
+          <form action="" method="POST">
+            <div class="row">
+            <div class="form-group col-6">
+              <label for="template_name">First Name</label>
+              <input type="template_name" class="form-control" 
+                name="firstName">
+            </div>
+            <div class="form-group col-6">
+              <label for="template_name">Last Name</label>
+              <input type="template_name" class="form-control" name="lastName">
+            </div>
+            
+            <div class="form-group col-12">
+              <label for="template_body">Email</label>
+              <input type="text" class="form-control" name="email" >
+            </div>
+            <div class="form-group col-12">
+              <label for="template_body">Password</label>
+              <input type="text" class="form-control" name="password" >
+            </div>
+            </div>
+            <button type="submit" class="btn btn-dark">Register</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>

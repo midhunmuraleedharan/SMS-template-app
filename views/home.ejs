@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+<script>
+$.ajax({
+url: `/autheticated`,
+headers: {
+'authorization': 'bearer ' + localStorage.getItem('jwt'),
+'Content-Type': 'application/json'
+},
+method: 'GET',
+success: function (data) {
+console.log(data.data);
+$('#signup').hide();
+$('#signin').hide();
+},
+error: function () {
+  $('#list').hide();
+
+}
+});
+</script>
+<div class="jumbotron centered">
+  <div class="container">
+    <h1 class="display-3">Quick Messanger</h1>
+    <p class="lead">SMS Templates app</p>
+    <hr>
+    <a class="btn btn-light btn-lg" href="/signup" id="signup" role="button">Register</a>
+    <a class="btn btn-dark btn-lg" href="/signin" id="signin"  role="button">Login</a>
+    <a class="btn btn-success btn-lg" href="/list" id="list" role="button">List Template</a>
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>

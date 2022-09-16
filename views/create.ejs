@@ -1,0 +1,51 @@
+<%- include('partials/header') %>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("form").submit(function (event) {
+      //stop form from submitting normally
+
+      event.preventDefault();
+      var formValues = {
+        "template_name":$("#template_name").val(),
+        "template_body":$("#template_body").val()
+              }
+      $.ajax({
+        url: '/create-template',
+        headers: {
+          'authorization': 'bearer ' + localStorage.getItem('jwt'),
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        data: JSON.stringify(formValues),
+        success: function (data) {
+               window.location.href = '/';
+        }
+      });
+    });
+  });
+</script>
+<div class="container mt-5">
+  <h1>Create Template</h1>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <!-- Makes POST request to /login route -->
+          <form action="" method="POST">
+            <div class="form-group">
+              <label for="template_name">Heading</label>
+              <input type="template_name" class="form-control" value="Hello name," id = "template_name" name="template_name" readonly>
+            </div>
+            <div class="form-group">
+              <label for="template_body">SMS Body</label>
+              <textarea type="text" class="form-control" name="template_body" id = "template_body"></textarea>
+            </div>
+            <button type="submit" class="btn btn-dark">add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

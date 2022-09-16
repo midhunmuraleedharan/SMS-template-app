@@ -1,0 +1,44 @@
+<%- include('partials/header') %>
+<script>
+   $(document).ready(function () {
+    $.ajax({
+       url: '/list-template',
+       headers: {
+         'authorization': 'bearer ' + localStorage.getItem('jwt'),
+         'Content-Type': 'application/json'
+       },
+       method: 'GET',
+       success: function (data) {
+        console.log(data);
+        if(data.status){
+         for(var i=0; i<data.data.length; i++){
+        const  add = `<a href="/send-sms/${data.data[i]._id}" value="${data.data[i]._id}" class="list-group-item list-group-item-action">${data.data[i].template_name} <p>${data.data[i].template_body}</p></a>`;
+            $(".list-group").append(add);
+        }
+      } 
+       },
+        error: function () {
+        window.location.href = '/signin';
+        
+          }
+     });
+     });
+   
+</script>
+<div class="container mt-5">
+  <h1>List Template</h1>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <!-- Makes POST request to /login route -->
+          <div class="list-group">
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
