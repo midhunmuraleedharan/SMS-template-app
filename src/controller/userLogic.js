@@ -35,11 +35,7 @@ export async function createTemplate(req, res) {
   try {
     if (req.params.id) {
       const id = req.params.id;
-      templateSchema.findOne({ _id: id }).then((template) => {
-        // const data = template.template_name
-        // let Name = "Midhun ";
-        // const newdata = data.replace("name", Name);
-        
+      templateSchema.findOne({ _id: id }).then((template) => {  
         if (template) {
           return res.status(200).json({
             status: "true",
@@ -53,7 +49,10 @@ export async function createTemplate(req, res) {
         }
       });
     } else {
-      return res.status(400).json({status: "false", message: "template id is not Valid" });
+      return res.status(400).json(
+        {status: "false",
+         message: "template id is not Valid" 
+        });
     }
   } catch (err) {
     return res
@@ -80,7 +79,9 @@ export async function createTemplate(req, res) {
       } else {
         return res
           .status(400)
-          .json({ status: "false", message: "template id is not Valid" });
+          .json({ status: "false",
+                 message: "template id is not Valid"
+                });
       }
     } catch (err) {
       console.log(err);
@@ -122,5 +123,3 @@ export async function listTemplates(req, res) {
       });
   }
 }
-
-
