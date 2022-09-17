@@ -37,7 +37,7 @@ export async function createTemplate(req, res) {
       const id = req.params.id;
       templateSchema.findOne({ _id: id }).then((template) => {
         // const data = template.template_name
-        // let Name = "Ebin ";
+        // let Name = "Midhun ";
         // const newdata = data.replace("name", Name);
         
         if (template) {
